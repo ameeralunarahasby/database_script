@@ -2,119 +2,54 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data SKP Pegawai</title>
+    <title>Data SKP</title>
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; margin: 0; color: #333; }
-        .container { max-width: 1200px; margin: auto; }
-        h2 { margin-bottom: 20px; color: #2c3e50; }
+        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; color: #333; }
+        .container { max-width: 1000px; margin: auto; }
+        .toolbar { background: white; padding: 15px; border-radius: 6px; display: flex; gap: 10px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
+        .btn-add { background: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; }
+        .table-responsive { background: white; padding: 15px; border-radius: 6px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
         
-        .toolbar { background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.06); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 20px; }
-        .toolbar input { padding: 9px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; min-width: 200px; }
-        .btn-add { background: #28a745; color: white; border: none; padding: 10px 18px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 13px; margin-right: auto; }
-        
-        .table-responsive { background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.06); overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
-        th { background: #f8f9fa; padding: 12px 15px; color: #555; border-bottom: 2px solid #eee; }
-        td { padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: top; line-height: 1.5; }
-        tr:hover { background: #f9fbfd; }
-        .sub-text { color: #666; font-size: 12px; margin-top: 2px; }
-        
-        .btn-action { padding: 5px 10px; border: none; border-radius: 3px; font-weight: bold; cursor: pointer; font-size: 11px; margin-right: 3px; color: white; }
-        .btn-view { background: #17a2b8; }
-        .btn-edit { background: #ffc107; color: #212529; }
-        
-        .pagination-container { text-align: center; margin-top: 20px; font-size: 14px; font-weight: bold; color: #555; display: flex; justify-content: center; align-items: center; }
-        .pagination-container button { padding: 8px 16px; border: none; background: #007BFF; color: white; cursor: pointer; border-radius: 4px; font-size: 13px; margin: 0 10px; font-weight: bold; }
-        .pagination-container button:disabled { background: #ccc; cursor: not-allowed; }
-
-        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto; padding: 20px 10px; box-sizing: border-box; }
-        .modal-box { background: white; max-width: 800px; margin: 20px auto; padding: 25px; border-radius: 8px; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .modal-header { font-size: 18px; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; color: #007BFF; display: flex; justify-content: space-between; }
-        .modal-close { cursor: pointer; font-size: 20px; color: #aaa; }
-        
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 12px; font-weight: bold; color: #555; margin-bottom: 4px; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 13px; }
-        .form-group input[readonly] { background-color: #e9ecef; cursor: not-allowed; }
-        
-        .btn-save { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; }
+        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .modal-box { background: white; max-width: 600px; margin: auto; padding: 20px; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; font-size: 12px; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-save { background: #007bff; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <h2>Manajemen SKP Pegawai</h2>
-
-    <div class="toolbar">
-        <button class="btn-add" onclick="bukaForm('create')">➕ Tambah Data SKP</button>
-        <input type="text" id="search-box" placeholder="Cari Nama / NIP...">
-    </div>
-
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nama / NIK</th>
-                    <th>NIP / Jabatan</th>
-                    <th>Tahun SKP</th>
-                    <th>Pejabat Penilai</th>
-                    <th>Predikat Kinerja</th>
-                    <th style="width: 140px;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody id="skp-table-body">
-                <tr><td colspan="6" style="text-align:center; padding:30px;">Memuat data...</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="pagination-controls" class="pagination-container"></div>
+    <h2>Manajemen SKP</h2>
+    <div class="toolbar"><button class="btn-add" onclick="bukaForm('create')">+ Tambah SKP</button></div>
+    <div class="table-responsive"><table id="tabel-skp"><thead><tr><th>Pegawai</th><th>Tahun</th><th>Predikat</th><th>Aksi</th></tr></thead><tbody id="body-skp"></tbody></table></div>
 </div>
 
 <div id="modal-form" class="modal-overlay">
     <div class="modal-box">
-        <div class="modal-header">
-            <span id="modal-title">Form Data SKP</span>
-            <span class="modal-close" onclick="tutupModal('modal-form')">&times;</span>
+        <h3 id="modal-title">Form SKP</h3>
+        <input type="hidden" id="mode_form">
+        <div class="form-group">
+            <label>Pilih Pegawai (Ketik Nama/NIK) *</label>
+            <input type="text" id="input_pegawai" list="daftar_pegawai" placeholder="Ketik nama atau NIK..." oninput="cariPegawai()" required>
+            <datalist id="daftar_pegawai"></datalist>
+            <input type="hidden" id="id_pegawai">
         </div>
-        <form id="formSKP">
-            <input type="hidden" id="mode_form" value="create">
-            <input type="hidden" id="id_skp"> <div class="grid-2">
-                <div class="form-group">
-                    <label>Pilih Pegawai *</label>
-                    <select id="id_pegawai" required onchange="pilihPegawai()"><option value="">Memuat data pegawai...</option></select>
-                </div>
-                <div class="form-group"><label>Tahun SKP *</label><input type="number" id="tahun_skp" required></div>
-                <div class="form-group"><label>NIK</label><input type="text" id="nik" readonly></div>
-                <div class="form-group"><label>Nama Lengkap</label><input type="text" id="nama" readonly></div>
-                <div class="form-group"><label>NIP</label><input type="text" id="nip" readonly></div>
-                <div class="form-group"><label>Jabatan</label><input type="text" id="jabatan"></div>
-                <div class="form-group"><label>Pejabat Penilai</label><input type="text" id="pejabat_penilai"></div>
-                <div class="form-group"><label>Atasan Pejabat Penilai</label><input type="text" id="atasan_pejabat"></div>
-                <div class="form-group"><label>Capaian Kinerja Orientasi</label><input type="text" id="capaian_kinerja_orientasi"></div>
-                <div class="form-group">
-                    <label>Predikat Kinerja</label>
-                    <select id="predikat_kinerja_pegawai">
-                        <option value="">Pilih...</option>
-                        <option value="Sangat Baik">Sangat Baik</option>
-                        <option value="Baik">Baik</option>
-                        <option value="Cukup">Cukup</option>
-                        <option value="Kurang">Kurang</option>
-                    </select>
-                </div>
-                <div class="form-group" style="grid-column: span 2;"><label>Catatan</label><textarea id="catatan" rows="2"></textarea></div>
-                <div class="form-group" style="grid-column: span 2;"><label>Upload Dokumen SKP (PDF/Img)</label><input type="file" id="file_skp"></div>
-            </div>
-            
-            <div style="text-align: right; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
-                <button type="button" class="btn-save" id="btnSimpan" onclick="simpanData()">Simpan Data</button>
-            </div>
-        </form>
+        <div class="form-group"><label>NIK</label><input type="text" id="nik" readonly></div>
+        <div class="form-group"><label>Nama</label><input type="text" id="nama" readonly></div>
+        <div class="form-group"><label>Tahun SKP</label><input type="number" id="tahun_skp"></div>
+        <div class="form-group"><label>Predikat Kinerja</label>
+            <select id="predikat_kinerja_pegawai">
+                <option value="Sangat Baik">Sangat Baik</option><option value="Baik">Baik</option>
+                <option value="Cukup">Cukup</option><option value="Kurang">Kurang</option>
+            </select>
+        </div>
+        <button class="btn-save" id="btnSimpan" onclick="simpanData()">Simpan</button>
+        <button onclick="document.getElementById('modal-form').style.display='none'" style="width:100%; margin-top:10px; padding:10px;">Batal</button>
     </div>
 </div>
-
 <script src="../js/skp.js"></script>
 </body>
 </html>
