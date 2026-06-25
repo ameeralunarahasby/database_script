@@ -3,31 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Pegawai</title>
+    <title>Database Pegawai - Form Wizard Dynamic</title>
     <style>
         body { font-family: sans-serif; background: #f4f7f6; padding: 20px; }
         .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         h2 { text-align: center; color: #333; margin-bottom: 20px; }
-        
-        /* ... SISA CSS ANDA SAMA SEPERTI SEBELUMNYA ... */
-        .btn-container { text-align: right; margin-top: 20px; }
-        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; margin-left: 5px; }
-        #prevBtn { background: #6c757d; }
-        #nextBtn { background: #007BFF; }
-        .btn-cancel { background: #dc3545; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 10px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 13px; color: #555; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; background: #fff;}
+        input[readonly] { background-color: #e9ecef; cursor: not-allowed; }
+        .invalid { border: 1px solid red !important; background-color: #ffdddd !important; }
+        .tab { display: none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-container { display: flex; justify-content: space-between; margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px; }
+        button { padding: 12px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        #prevBtn { background-color: #6c757d; color: white; }
+        #nextBtn { background-color: #007BFF; color: white; }
+        .btn-cancel { background-color: #dc3545; color: white; padding: 12px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 14px; display: inline-block; }
+        .step-container { text-align: center; margin-bottom: 30px; }
+        .step { height: 30px; width: 30px; margin: 0 5px; background-color: #bbbbbb; border-radius: 50%; display: inline-block; line-height: 30px; color: white; font-weight: bold; font-size: 14px; }
+        .step.active { background-color: #007BFF; }
+        .step.finish { background-color: #28a745; }
+        .tab-title { font-size: 18px; border-bottom: 2px solid #007BFF; padding-bottom: 5px; margin-bottom: 20px; color: #007BFF; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 id="formTitle">Tambah Database Pegawai</h2>
-    
+    <h2>Form Input Database Pegawai</h2>
+    <div class="step-container">
+        <span class="step">1</span>
+        <span class="step">2</span>
+        <span class="step">3</span>
+        <span class="step">4</span>
+    </div>
+
     <form id="pegawaiForm">
-        <input type="hidden" id="id_pegawai">
+        <div class="tab">
+            <h3 class="tab-title">Langkah 1: Data Pribadi & Kontak</h3>
+            <div class="grid-2">
+                <div class="form-group"><label>ID Pegawai *</label><input type="text" id="id_pegawai" required></div>
+                <div class="form-group"><label>NIK</label><input type="text" id="nik"></div>
+                <div class="form-group"><label>Nama *</label><input type="text" id="nama" required></div>
+                <div class="form-group"><label>Tempat Lahir</label><input type="text" id="tempat_lahir"></div>
+                <div class="form-group"><label>Tanggal Lahir</label><input type="date" id="tanggal_lahir"></div>
+                <div class="form-group">
+                    <label>Status Keluarga</label>
+                    <select id="status_keluarga"><option value="">Pilih...</option><option value="Lajang">Lajang</option><option value="Menikah">Menikah</option><option value="Cerai Hidup">Cerai Hidup</option></select>
+                </div>
+                <div class="form-group"><label>No KK</label><input type="text" id="no_kk"></div>
+                <div class="form-group"><label>Pasangan</label><input type="text" id="pasangan"></div>
+                <div class="form-group">
+                    <label>Jumlah Anak</label>
+                    <select id="jml_anak"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+                </div>
+                <div class="form-group" id="wrap_anak1" style="display: none;"><label>Anak 1</label><input type="text" id="anak1"></div>
+                <div class="form-group" id="wrap_anak2" style="display: none;"><label>Anak 2</label><input type="text" id="anak2"></div>
+                <div class="form-group" id="wrap_anak3" style="display: none;"><label>Anak 3</label><input type="text" id="anak3"></div>
+                <div class="form-group" style="grid-column: span 2;"><label>Alamat</label><input type="text" id="alamat"></div>
+                <div class="form-group"><label>No HP</label><input type="text" id="no_hp"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="email"></div>
+            </div>
+        </div>
+
+        <div class="tab">
+            <h3 class="tab-title">Langkah 2: Data Kepegawaian</h3>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Kelompok Pegawai</label>
+                    <select id="kelompok_pegawai"><option value="">Pilih...</option><option value="ASN">ASN</option><option value="APBD">APBD</option><option value="BLUD">BLUD</option></select>
+                </div>
+                <div class="form-group" id="wrap_nip" style="display: none;"><label>NIP</label><input type="text" id="nip"></div>
+                <div class="form-group">
+                    <label>Status Pegawai</label>
+                    <select id="status_pegawai"><option value="">Pilih...</option><option value="Aktif">Aktif</option><option value="Mutasi">Mutasi</option><option value="Pensiun">Pensiun</option></select>
+                </div>
+                <div class="form-group"><label>Golongan</label><select id="golongan"><option value="">Memuat data...</option></select></div>
+                <div class="form-group" id="wrap_tmt_pangkat" style="display: none;"><label>TMT Pangkat</label><input type="date" id="tmt_pangkat"></div>
+                <div class="form-group">
+                    <label>Kelompok Jabatan</label>
+                    <select id="kelompok_jabatan"><option value="">Pilih...</option><option value="Management">Management</option><option value="Tenaga Medis">Tenaga Medis</option></select>
+                </div>
+                <div class="form-group"><label>Jabatan</label><select id="jabatan"><option value="">Memuat data...</option></select></div>
+                <div class="form-group"><label>TMT Jabatan</label><input type="date" id="tmt_jabatan"></div>
+                <div class="form-group"><label>Masuk RS</label><input type="date" id="masuk_rs"></div>
+                <div class="form-group"><label>Masa Kerja</label><input type="text" id="masa_kerja" readonly></div>
+                <div class="form-group" id="wrap_tmt_cpns" style="display: none;"><label>TMT CPNS</label><input type="date" id="tmt_cpns"></div>
+                <div class="form-group"><label>BUP</label><select id="bup"><option value="">Pilih...</option><option value="58">58</option><option value="60">60</option></select></div>
+                <div class="form-group"><label>TMT Pensiun</label><input type="date" id="tmt_pensiun" readonly></div>
+                <div class="form-group"><label>Ruangan</label><select id="ruangan"><option value="">Memuat data...</option></select></div>
+                <div class="form-group"><label>TMT Nota</label><input type="date" id="tmt_nota"></div>
+            </div>
+        </div>
+
+        <div class="tab">
+            <h3 class="tab-title">Langkah 3: Asuransi & Pajak</h3>
+            <div class="grid-2">
+                <div class="form-group"><label>BPJS Kesehatan</label><input type="text" id="bpjs_kesehatan"></div>
+                <div class="form-group"><label>Ketenagakerjaan/Taspen</label><input type="text" id="ketenagakerjaan_taspen"></div>
+                <div class="form-group"><label>NPWP</label><input type="text" id="npwp"></div>
+            </div>
+        </div>
+
+        <div class="tab">
+            <h3 class="tab-title">Langkah 4: Upload Dokumen</h3>
+            <div class="grid-2">
+                <div class="form-group"><label>Foto</label><input type="file" id="file_foto"></div>
+                <div class="form-group"><label>KTP</label><input type="file" id="file_ktp"></div>
+                <div class="form-group"><label>KK</label><input type="file" id="file_kk"></div>
+                <div class="form-group"><label>Ijazah</label><input type="file" id="file_ijazah"></div>
+                <div class="form-group"><label>Pangkat</label><input type="file" id="file_pangkat"></div>
+                <div class="form-group"><label>Jabatan</label><input type="file" id="file_jabatan"></div>
+            </div>
+        </div>
 
         <div class="btn-container">
-            <button type="button" class="btn-cancel" onclick="window.location.href='pegawai.html'">Batal</button>
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Sebelumnya</button>
+            <div>
+                <a href="pegawai.html" class="btn-cancel">Batal</a>
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)" style="margin-left: 10px;">Sebelumnya</button>
+            </div>
             <button type="button" id="nextBtn" onclick="nextPrev(1)">Selanjutnya</button>
         </div>
     </form>
