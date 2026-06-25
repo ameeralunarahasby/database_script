@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pegawai</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        
+        /* ... SISA CSS ANDA SAMA SEPERTI SEBELUMNYA ... */
+        .btn-container { text-align: right; margin-top: 20px; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; margin-left: 5px; }
+        #prevBtn { background: #6c757d; }
+        #nextBtn { background: #007BFF; }
+        .btn-cancel { background: #dc3545; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 id="formTitle">Tambah Database Pegawai</h2>
+    
+    <form id="pegawaiForm">
+        <input type="hidden" id="id_pegawai">
+
+        <div class="btn-container">
+            <button type="button" class="btn-cancel" onclick="window.location.href='pegawai.html'">Batal</button>
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Sebelumnya</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Selanjutnya</button>
+        </div>
+    </form>
+</div>
+
+<script src="../js/script.js"></script>
+</body>
+</html>
