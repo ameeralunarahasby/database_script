@@ -1,4 +1,3 @@
-// Ganti isi seluruh file utama.js dengan kode ini:
 document.addEventListener("DOMContentLoaded", function() {
     
     // 1. Fungsi Toggle Sidebar
@@ -25,3 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+// 3. Fungsi Navigasi (loadPage)
+// Gunakan ini untuk memuat halaman ke dalam iframe
+function loadPage(url) {
+    const iframe = document.getElementById('contentFrame');
+    if (iframe) {
+        iframe.src = url;
+    }
+}
