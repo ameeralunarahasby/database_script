@@ -1,25 +1,27 @@
-function toggleSidebar() {
-    let sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('collapsed');
-    let logo = document.getElementById('logo');
-    if(sidebar.classList.contains('collapsed')) {
-        logo.innerText = "HR";
-        // Tutup semua submenu saat disembunyikan
-        document.querySelectorAll('.submenu').forEach(el => el.classList.remove('show'));
-    } else {
-        logo.innerText = "SI-PEG";
-    }
-}
+// Ganti isi seluruh file utama.js dengan kode ini:
+document.addEventListener("DOMContentLoaded", function() {
+    
+    // 1. Fungsi Toggle Sidebar
+    const toggleBtn = document.getElementById('toggle-sidebar');
+    const sidebar = document.getElementById('sidebar');
 
-function toggleSubmenu(id) {
-    let sidebar = document.getElementById('sidebar');
-    if(sidebar.classList.contains('collapsed')) {
-        toggleSidebar(); 
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('hidden');
+        });
     }
-    let el = document.getElementById(id);
-    el.classList.toggle('show');
-}
 
-function loadPage(url) {
-    document.getElementById('contentFrame').src = url;
-}
+    // 2. Fungsi Dropdown Sidebar
+    const dropdowns = document.querySelectorAll(".dropdown-btn");
+    dropdowns.forEach(btn => {
+        btn.addEventListener("click", function() {
+            this.classList.toggle("active");
+            const dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    });
+});
