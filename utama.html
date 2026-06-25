@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Kepegawaian (HRIS)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; overflow: hidden; background-color: #f4f6f9; }
+        
+        /* Sidebar Styling */
+        .sidebar { width: 260px; background: #2c3e50; color: white; transition: 0.3s; display: flex; flex-direction: column; overflow-y: auto; z-index: 100;}
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .menu-text, .sidebar.collapsed .dropdown-icon { display: none; }
+        
+        .logo-area { padding: 20px; font-size: 1.2rem; font-weight: bold; text-align: center; background: #1a252f; color: #1abc9c; letter-spacing: 1px; white-space: nowrap; }
+        .sidebar.collapsed .logo-area { font-size: 0.8rem; padding: 20px 0; }
+        
+        .menu-item { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #34495e; color: #ecf0f1; text-decoration: none; transition: 0.2s; white-space: nowrap;}
+        .menu-item:hover, .menu-item.active { background: #34495e; color: #3498db; border-left: 4px solid #3498db; }
+        .menu-item i.icon { width: 25px; text-align: center; margin-right: 10px; font-size: 1.1rem; }
+        .sidebar.collapsed .menu-item i.icon { margin-right: 0; font-size: 1.3rem; }
+        
+        /* Submenu */
+        .submenu { background: #1e2b38; display: none; flex-direction: column; }
+        .submenu.show { display: flex; }
+        .submenu a { padding: 12px 20px 12px 55px; color: #bdc3c7; text-decoration: none; display: block; font-size: 0.9rem; transition: 0.2s; white-space: nowrap;}
+        .submenu a:hover { background: #2c3e50; color: #fff; }
+        .sidebar.collapsed .submenu { display: none !important; } 
+        
+        /* Main Content Area */
+        .main-content { flex: 1; display: flex; flex-direction: column; }
+        .topbar { height: 60px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; padding: 0 20px; z-index: 10; justify-content: space-between;}
+        .toggle-btn { cursor: pointer; font-size: 1.5rem; color: #2c3e50; }
+        .toggle-btn:hover { color: #3498db; }
+        
+        iframe { flex: 1; border: none; width: 100%; height: 100%; background: #f4f6f9; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <div class="logo-area" id="logo">SI-PEG</div>
+        
+        <a href="#" class="menu-item" onclick="loadPage('html/pegawai.html')">
+            <div><i class="fas fa-home icon"></i><span class="menu-text">Dashboard</span></div>
+        </a>
+        
+        <div class="menu-item" onclick="toggleSubmenu('menu-master')">
+            <div><i class="fas fa-database icon"></i><span class="menu-text">Master Data</span></div>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+        </div>
+        <div class="submenu" id="menu-master">
+            <a href="#" onclick="loadPage('html/pegawai.html')">Data Pegawai</a>
+            <a href="#">Pegawai Masuk</a>
+            <a href="#">Pegawai Keluar</a>
+        </div>
+
+        <div class="menu-item" onclick="toggleSubmenu('menu-kredensial')">
+            <div><i class="fas fa-id-card icon"></i><span class="menu-text">Kredensial / Profesi</span></div>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+        </div>
+        <div class="submenu" id="menu-kredensial">
+            <a href="#">Berkas STR</a>
+            <a href="#">Berkas SIK</a>
+            <a href="#">SPK dan RKK</a>
+            <a href="#">Berkas OPPE</a>
+        </div>
+
+        <div class="menu-item" onclick="toggleSubmenu('menu-kinerja')">
+            <div><i class="fas fa-chart-line icon"></i><span class="menu-text">Kinerja & Kompetensi</span></div>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+        </div>
+        <div class="submenu" id="menu-kinerja">
+            <a href="#">SKP Pegawai</a>
+            <a href="#">Sertifikat Pelatihan</a>
+        </div>
+
+        <a href="#" class="menu-item">
+            <div><i class="fas fa-cog icon"></i><span class="menu-text">Pengaturan</span></div>
+        </a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <i class="fas fa-bars toggle-btn" onclick="toggleSidebar()"></i>
+            <div style="font-weight: bold; color: #2c3e50;">Welcome, Admin!</div>
+        </div>
+        <iframe name="contentFrame" id="contentFrame" src="html/pegawai.html"></iframe>
+    </div>
+
+    <script src="utama.js"></script>
+</body>
+</html>
